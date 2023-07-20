@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Register xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/crm/2011/tools/pluginregistration">
+  <Solutions>
+    <Solution Assembly="CFA_Plugins.Plugins.dll" Id="d07b54e1-5398-43f5-b9b5-914e15ae5f70" IsolationMode="Sandbox" SourceType="Database">
+      <PluginTypes>
+        <clear />
+        <Plugin Description="Plug-in to Log Student Record Change" FriendlyName="Log Student Record Change" Name="CFA_Plugins.Plugins.PostOperationin23gl_studentUpdate" Id="b5dc685f-e3ac-4e2d-86c6-56372861bc4f" TypeName="CFA_Plugins.Plugins.PostOperationin23gl_studentUpdate">
+          <Steps>
+            <clear />
+            <Step AsyncAutoDelete="false" Name="Log Student Record Change" Description="Logs Student Record Changes in Student Logs table" FilteringAttributes="createdby,createdon,in23gl_dob,in23gl_email,in23gl_firstname,in23gl_lastname,ownerid,owningteam,owninguser,statecode,in23gl_studentid,in23gl_university" Id="3629bb0e-5b26-ee11-9966-002248081888" ImpersonatingUserId="00000000-0000-0000-0000-000000000000" MessageName="Update" Mode="Synchronous" PrimaryEntityName="in23gl_student" Rank="1" Stage="PostOutsideTransaction" SupportedDeployment="ServerOnly" MessageEntityId="00000000-0000-0000-0000-000000000000">
+              <Images />
+            </Step>
+          </Steps>
+        </Plugin>
+      </PluginTypes>
+    </Solution>
+  </Solutions>
+  <XamlWorkflows />
+  <DataProviders />
+</Register>
