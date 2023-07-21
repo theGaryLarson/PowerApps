@@ -4,8 +4,8 @@
 These Dynamics 365 PowerApps plugins are created as an example to show how to create, register, and deploy Plugins in a PowerApps hosted on Dynamics 365 using VS extensions and the Plugin Registration Tool (PRT).
 
 ### Required Tools & Assemblies
-- [ ] .NET Framework 4.6.2
-- [ ] Microsoft.CrmSdk.CoreAssemblies
+- [ ] .NET Framework 4.6.2 (Right-click Project > Select Properties > Application Target Framework .NET 4.6.2)
+- [ ] Microsoft.CrmSdk.CoreAssemblies (Use NuGet Package Manager)
 - [ ] Power Dev Tools - Extensions > Manage Extensions. Search for Power Platform Tools for VS. Install and restart VS.
 - [ ] Plugin Registration Tool (PRT). There are a few different ways to obtain this Tool. I had difficulty and the one that worked for me was the CLI download
 ```dotnet tool install --global Microsoft.PowerApps.CLI.Tool```
