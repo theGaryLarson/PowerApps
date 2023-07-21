@@ -41,9 +41,35 @@ If you get this right the first time. You are done. Congratulations!
 - Save. Close the window.
 - With your Assembly selected click the Register button. This will update the changes to the cloud environment.
 
-### Log Changes to Student Data
+### Log Changes to Student Data | [cs file](https://github.com/theGaryLarson/PowerApps/blob/main/Plugins/PostOperationin23gl_studentUpdate.cs)
 On lines 78 and 79 there is a reference to preimage and postimage entity objects. Before this will work the PRT must be used on the step to register PreImage and PostImages with the Step.
-- Open PRT ```pac tool prt```
-- 
-[cs file](https://github.com/theGaryLarson/PowerApps/blob/main/Plugins/PostOperationin23gl_studentUpdate.cs)
+1. Open PRT ```pac tool prt```
+2. Login
 
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](resources/prt-login.png)<br></br>
+Be sure to select 
+- [ ] Office 365
+- [ ] Display list of available organizations
+
+3.  Choose organization
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](resources/choose-org.png)<br></br>
+ 
+5. Find your assembly. Expand. Right-click step
+   
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](resources/register-new-image.png)<br></br>
+6. Selecting Register new image will give this window
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](resources/new-image-options.png)<br></br>
+ - [ ] **Pre Image:** The state of the data pre-operations
+ - [ ] **Post Image:** The state of the data post-operations
+- Name: is the display name
+- **Entity Alias:** is the name you will use in code. It is case-sensitive.
+- **Parameters:** By default all parameters are selected. You want to change this by pressing the ```...``` button and selecting the fields that are relevant for your process. Or else there will be performance issues.
+
+7. Update Existing image
+  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](resources/updating-existing%20image.png)<br></br>
+ 
+ - This may not be needed but it is good to know you have an option to make changes if needed.
+ - After clicking update. I recommend selecting the assembly and clicking the register button just to be sure it is updated to the organization.
