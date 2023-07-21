@@ -42,4 +42,8 @@ If you get this right the first time. You are done. Congratulations!
 - With your Assembly selected click the Register button. This will update the changes to the cloud environment.
 
 ### Log Changes to Student Data
+On lines 78 and 79 there is a reference to preimage and postimage entity objects. Before this will work the PRT must be used on the step to register PreImage and PostImages with the Step.
+- Open PRT ```pac tool prt```
+- 
 [cs file](https://github.com/theGaryLarson/PowerApps/blob/main/Plugins/PostOperationin23gl_studentUpdate.cs)
+
