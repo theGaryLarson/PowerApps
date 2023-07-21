@@ -87,6 +87,7 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LinkCompulsoryCourses.cs" />
     <Compile Include="PostOperationin23gl_studentUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PluginBase.cs" />
