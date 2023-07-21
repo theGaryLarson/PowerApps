@@ -16,7 +16,7 @@ Create a new Project in VS.
 - Use template: Power Platforms Solutions
 - Connect to Dataverse. Tools > Connect to Dataverse. Enter your login credentials. If multiple environments be sure to click the checkbox to show all environments.
 - Scroll to entity in PowerApp Explorer and right click create Plugin. This will create the boilerplate code.
-- Add your personalized Business Logic under the TODO comment in ExecutCDSPlugin method.
+- Add your personalized Business Logic under the TODO comment in ExecuteCDSPlugin method.
 - Save.
 - Right click the project in the Solution Explorer.
 - In the main window on the left you will see various options. Select "signing".
