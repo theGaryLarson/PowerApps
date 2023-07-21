@@ -42,4 +42,4 @@ If you get this right the first time. You are done. Congratulations!
 - With your Assembly selected click the Register button. This will update the changes to the cloud environment.
 
 ### Log Changes to Student Data
-[File](theGaryLarson/PowerApps/blob/main/Plugins/PostOperationin23gl_studentUpdate.cs)
+[cs file](https://github.com/theGaryLarson/PowerApps/blob/main/Plugins/PostOperationin23gl_studentUpdate.cs)https://github.com/theGaryLarson/PowerApps/blob/main/Plugins/PostOperationin23gl_studentUpdate.cs)
