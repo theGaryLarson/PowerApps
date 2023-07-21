@@ -29,7 +29,7 @@ Create a new Project in VS.
 With the Power Platform Solution Template after clicking Deploy a window will pop up to setup which Message(Event) triggers the Plugin along with some other options.
 If you get this right the first time. You are done. Congratulations!
 
-However, if you need to make changes to the registration of the event you will need to use the Public Registration Tool listed above.
+> However, if you need to make changes to the registration of the event you will need to use the Public Registration Tool listed above.
 - run the terminal command ```pac tool prt```
 - connect to dataverse
 - wait for everything to load
