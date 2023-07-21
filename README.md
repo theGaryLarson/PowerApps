@@ -1,7 +1,7 @@
 # PowerApps Plugins
 
 
-These Dynamics 365 PowerApps plugins are created as an example to show how to create, register, and deploy Plugins in a PowerApps hosted on Dynamics 365.
+These Dynamics 365 PowerApps plugins are created as an example to show how to create, register, and deploy Plugins in a PowerApps hosted on Dynamics 365 using VS extensions and the Plugin Registration Tool (PRT).
 
 ### Required Tools & Assemblies
 - [ ] .NET Framework 4.6.2
