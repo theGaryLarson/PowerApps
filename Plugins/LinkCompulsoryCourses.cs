@@ -71,7 +71,10 @@ namespace CFA_Plugins.Plugins
                     if (student.LogicalName != "in23gl_student")
                         return;
 
-                    // Create a query to retrieve all compulsory courses
+                    // Get the university of the student
+                    EntityReference studentUniversity = (EntityReference)student["in23gl_university"];
+
+                    // Create a query to retrieve all compulsory courses of the same university
                     QueryExpression query = new QueryExpression
                     {
                         EntityName = "in23gl_course",
@@ -85,6 +88,12 @@ namespace CFA_Plugins.Plugins
                                     AttributeName = "in23gl_iscompulsory",
                                     Operator = ConditionOperator.Equal,
                                     Values = { true }
+                                },
+                                new ConditionExpression
+                                {
+                                    AttributeName = "in23gl_university",
+                                    Operator = ConditionOperator.Equal,
+                                    Values = { studentUniversity.Id }
                                 }
                             }
                         }
