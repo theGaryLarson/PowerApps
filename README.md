@@ -69,7 +69,7 @@ Be sure to select
 
 7. Update Existing image
   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](resources/updating-existing%20image.png)<br></br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](resources/update-existing-image.png)<br></br>
  
  - This may not be needed but it is good to know you have an option to make changes if needed.
  - After clicking update. I recommend selecting the assembly and clicking the register button just to be sure it is updated to the organization.
