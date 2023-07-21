@@ -40,3 +40,6 @@ If you get this right the first time. You are done. Congratulations!
 - Make any necessary changes.
 - Save. Close the window.
 - With your Assembly selected click the Register button. This will update the changes to the cloud environment.
+
+### Log Changes to Student Data
+[File](main/Plugins/PostOperationin23gl_studentUpdate.cs)
