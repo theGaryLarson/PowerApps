@@ -13,9 +13,9 @@ using System.ServiceModel;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 
+
 namespace CFA_Plugins.Plugins
 {
-
     /// <summary>
     /// LinkCompulsoryCourses Plugin.
     /// </summary>    
@@ -72,41 +72,33 @@ namespace CFA_Plugins.Plugins
                         return;
 
                     // Get the university of the student
-                    EntityReference studentUniversity = (EntityReference)student["in23gl_university"];
+                    EntityReference studentUniversity = (EntityReference)student["_in23gl_university_value"];
 
                     // Create a query to retrieve all compulsory courses of the same university
-                    QueryExpression query = new QueryExpression
+                    // https://learn.microsoft.com/en-us/dotnet/api/microsoft.xrm.sdk.query.querybyattribute?view=dataverse-sdk-latest
+                    var query = new QueryByAttribute("in23gl_course")
                     {
-                        EntityName = "in23gl_course",
                         ColumnSet = new ColumnSet("in23gl_courseid"),
-                        Criteria = new FilterExpression
-                        {
-                            Conditions =
-                            {
-                                new ConditionExpression
-                                {
-                                    AttributeName = "in23gl_iscompulsory",
-                                    Operator = ConditionOperator.Equal,
-                                    Values = { true }
-                                },
-                                new ConditionExpression
-                                {
-                                    AttributeName = "in23gl_university",
-                                    Operator = ConditionOperator.Equal,
-                                    Values = { studentUniversity.Id }
-                                }
-                            }
-                        }
+                        Attributes = { "in23gl_iscompulsory", "in23gl_university" },
+                        Values = { true, new EntityReference("in23gl_university", studentUniversity.Id) }
                     };
+
 
                     // Execute the query
                     EntityCollection compulsoryCourses = currentUserService.RetrieveMultiple(query);
+                // https://learn.microsoft.com/en-us/dotnet/api/microsoft.xrm.sdk.iorganizationservice.associate?view=dataverse-sdk-latest
+                    EntityReferenceCollection relatedEntities = new EntityReferenceCollection();
 
                     // Link student with these courses
-                    foreach (var course in compulsoryCourses.Entities)
+
+                    foreach (Entity course in compulsoryCourses.Entities)
                     {
-                        currentUserService.Associate("in23gl_student", student.Id, new Relationship("in23gl_rel_Course_Student"), new EntityReferenceCollection { new EntityReference("in23gl_course", course.Id) });
+                        //question: why is the course.Id not course["in23gl_courseid"]?
+                        relatedEntities.Add(new EntityReference("in23gl_course", course.Id));
                     }
+                    //question: why is the student.Id not student["in23gl_studentid"]?
+                    currentUserService.Associate("in23gl_student", student.Id, new Relationship("in23gl_rel_Course_Student"), relatedEntities);
+
                 }
 
             }
