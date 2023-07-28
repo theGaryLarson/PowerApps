@@ -80,6 +80,7 @@ namespace CFA_Plugins.Plugins
                     {
                         ColumnSet = new ColumnSet("in23gl_courseid"),
                         Attributes = { "in23gl_iscompulsory", "in23gl_university" },
+                        //question: why is the studentUniversity.Id not studentUniversity["in23gl_universityid"]?
                         Values = { true, new EntityReference("in23gl_university", studentUniversity.Id) }
                     };
 
