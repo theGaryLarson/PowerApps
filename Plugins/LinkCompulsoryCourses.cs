@@ -87,12 +87,37 @@ namespace CFA_Plugins.Plugins
                     tracingService.Trace(String.Format("Student University Logical Name: {0}", studentUniversity.LogicalName.ToString()));
                     // Create a query to retrieve all compulsory courses of the same university
                     // https://learn.microsoft.com/en-us/dotnet/api/microsoft.xrm.sdk.query.querybyattribute?view=dataverse-sdk-latest
-                    var query = new QueryByAttribute("in23gl_course")
+                    // Instantiate QueryExpression query
+                    var query = new QueryExpression("in23gl_course")
                     {
-                        ColumnSet = new ColumnSet("in23gl_courseid"),
-                        Attributes = { "in23gl_iscompulsory", "in23gl_university" },
-                        //question: why is the studentUniversity.Id not studentUniversity["in23gl_universityid"]?
-                        Values = { true, new EntityReference("in23gl_university", studentUniversity.Id) }
+                        // Add 2 columns to in23gl_course
+                        ColumnSet = new ColumnSet("in23gl_coursename", "in23gl_iscompulsory"),
+                        // Add filter to in23gl_course with 2 filters
+                        Criteria =
+                        {
+                            // Add 2 filters to in23gl_course
+                            Filters =
+                            {
+                                // Add filter to in23gl_course with 1 conditions
+                                new FilterExpression()
+                                {
+                                    // Add 1 conditions to in23gl_course
+                                    Conditions =
+                                    {
+                                        new ConditionExpression("in23gl_university", ConditionOperator.Equal, studentUniversity.Id)
+                                    }
+                                },
+                                // Add filter to in23gl_course with 1 conditions
+                                new FilterExpression()
+                                {
+                                    // Add 1 conditions to in23gl_course
+                                    Conditions =
+                                    {
+                                        new ConditionExpression("in23gl_iscompulsory", ConditionOperator.Equal, true)
+                                    }
+                                }
+                            }
+                        }
                     };
 
 
