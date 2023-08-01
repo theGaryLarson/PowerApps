@@ -55,6 +55,8 @@ namespace CFA_Plugins.Plugins
 
             try
             {
+                // Confirm plugin is being executed.
+                tracingService.Trace("LinkCompulsoryCourses plugin executed.");
                 // Obtain the execution context from the service provider.  
                 IPluginExecutionContext context = (IPluginExecutionContext)localContext.PluginExecutionContext;
 
@@ -62,18 +64,27 @@ namespace CFA_Plugins.Plugins
                 IOrganizationService currentUserService = localContext.CurrentUserService;
 
                 // Implement your custom Plug-in business logic.
+
+                //Added tracing here to verify inputParameters and logical name
+                tracingService.Trace(String.Format("Input parameters: {0}", context.InputParameters));
+
                 if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity)
                 {
+                    tracingService.Trace(PluginClassName + " contains Target and is Entity.");
                     // Obtain the target entity from the input parameters.
                     Entity student = (Entity)context.InputParameters["Target"];
 
+                    //Checking if my Target entity is the same. Accidentally registered on Student Log. Verify update to register options with PRT.
+                    tracingService.Trace(String.Format("Target entity: {0}", student.LogicalName.ToString()));
                     // Verify that the target entity represents a student.
                     if (student.LogicalName != "in23gl_student")
                         return;
 
-                    // Get the university of the student
-                    EntityReference studentUniversity = (EntityReference)student["_in23gl_university_value"];
-
+                    //TODO: Check the logical name of the field you are trying to get is correct or not
+                    // Get the university of the student. I was able to confirm through FetchXML Builder
+                    EntityReference studentUniversity = (EntityReference)student["in23gl_university"];
+                    tracingService.Trace(String.Format("Student University ID {0}", studentUniversity.Id.ToString()));
+                    tracingService.Trace(String.Format("Student University Logical Name: {0}", studentUniversity.LogicalName.ToString()));
                     // Create a query to retrieve all compulsory courses of the same university
                     // https://learn.microsoft.com/en-us/dotnet/api/microsoft.xrm.sdk.query.querybyattribute?view=dataverse-sdk-latest
                     var query = new QueryByAttribute("in23gl_course")
