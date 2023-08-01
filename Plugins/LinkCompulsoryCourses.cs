@@ -80,7 +80,6 @@ namespace CFA_Plugins.Plugins
                     if (student.LogicalName != "in23gl_student")
                         return;
 
-                    //TODO: Check the logical name of the field you are trying to get is correct or not
                     // Get the university of the student. I was able to confirm through FetchXML Builder
                     EntityReference studentUniversity = (EntityReference)student["in23gl_university"];
                     tracingService.Trace(String.Format("Student University ID {0}", studentUniversity.Id.ToString()));
@@ -90,7 +89,7 @@ namespace CFA_Plugins.Plugins
                     // Instantiate QueryExpression query
                     var query = new QueryExpression("in23gl_course")
                     {
-                        // Add 2 columns to in23gl_course
+                        // Can add whichever columns from course you want to retrieve in an Entity but we just need in23gl_courseid
                         ColumnSet = new ColumnSet("in23gl_coursename", "in23gl_iscompulsory"),
                         // Add filter to in23gl_course with 2 filters
                         Criteria =
@@ -141,7 +140,7 @@ namespace CFA_Plugins.Plugins
             // Only throw an InvalidPluginExecutionException. Please Refer https://go.microsoft.com/fwlink/?linkid=2153829.
             catch (Exception ex)
             {
-                tracingService?.Trace(String.Format(ex.ToString()));
+                tracingService?.Trace(String.Format("An error occurred executing {0}. Error: {1}", PluginClassName, ex.ToString()));
                 throw new InvalidPluginExecutionException("An error occurred executing Plugin CFA_Plugins.Plugins.LinkCompulsoryCourses .", ex);
             }
         }
