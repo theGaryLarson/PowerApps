@@ -15,7 +15,15 @@
         <Plugin Description="Plug-in to Link Compulsory Courses to Student" FriendlyName="Link Compulsory Courses to Student" Name="CFA_Plugins.Plugins.LinkCompulsoryCourses" Id="326abfa6-f04e-490f-b3b8-97b579ebdc90" TypeName="CFA_Plugins.Plugins.LinkCompulsoryCourses">
           <Steps>
             <clear />
-            <Step AsyncAutoDelete="false" Name="Link Compulsory Courses to Student" Description="Link Compulsory Courses to Student" Id="c12442c1-5a27-ee11-9966-0022480815b8" ImpersonatingUserId="00000000-0000-0000-0000-000000000000" MessageName="Create" Mode="Synchronous" PrimaryEntityName="in23gl_studentlogs" Rank="1" Stage="PostOutsideTransaction" SupportedDeployment="ServerOnly" MessageEntityId="00000000-0000-0000-0000-000000000000">
+            <Step AsyncAutoDelete="false" Name="Link Compulsory Courses to Student" Description="Link Compulsory Courses to Student" Id="597b395f-1a30-ee11-bdf3-002248081f22" ImpersonatingUserId="00000000-0000-0000-0000-000000000000" MessageName="Create" Mode="Synchronous" PrimaryEntityName="in23gl_studentlogs" Rank="1" Stage="PostOutsideTransaction" SupportedDeployment="ServerOnly" MessageEntityId="00000000-0000-0000-0000-000000000000">
+              <Images />
+            </Step>
+          </Steps>
+        </Plugin>
+        <Plugin Description="Plug-in to Link Compulsory Courses" FriendlyName="Link Compulsory Courses" Name="CFA_Plugins.Plugins.PostOperationin23gl_studentCreate" Id="00000000-0000-0000-0000-000000000000" TypeName="CFA_Plugins.Plugins.PostOperationin23gl_studentCreate">
+          <Steps>
+            <clear />
+            <Step AsyncAutoDelete="false" Name="Link Compulsory Courses" Description="on Create of Student (in23gl_student) link compulsory courses of associated University (in23gl_university)" Id="00000000-0000-0000-0000-000000000000" ImpersonatingUserId="00000000-0000-0000-0000-000000000000" MessageName="Create" Mode="Synchronous" PrimaryEntityName="in23gl_student" Rank="1" Stage="PostOutsideTransaction" SupportedDeployment="ServerOnly" MessageEntityId="00000000-0000-0000-0000-000000000000">
               <Images />
             </Step>
           </Steps>
