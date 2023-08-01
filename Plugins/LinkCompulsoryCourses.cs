@@ -98,17 +98,16 @@ namespace CFA_Plugins.Plugins
 
                     // Execute the query
                     EntityCollection compulsoryCourses = currentUserService.RetrieveMultiple(query);
-                // https://learn.microsoft.com/en-us/dotnet/api/microsoft.xrm.sdk.iorganizationservice.associate?view=dataverse-sdk-latest
+                    // https://learn.microsoft.com/en-us/dotnet/api/microsoft.xrm.sdk.iorganizationservice.associate?view=dataverse-sdk-latest
                     EntityReferenceCollection relatedEntities = new EntityReferenceCollection();
 
                     // Link student with these courses
 
                     foreach (Entity course in compulsoryCourses.Entities)
                     {
-                        //question: why is the course.Id not course["in23gl_courseid"]?
                         relatedEntities.Add(new EntityReference("in23gl_course", course.Id));
                     }
-                    //question: why is the student.Id not student["in23gl_studentid"]?
+
                     currentUserService.Associate("in23gl_student", student.Id, new Relationship("in23gl_rel_Course_Student"), relatedEntities);
 
                 }
@@ -117,7 +116,7 @@ namespace CFA_Plugins.Plugins
             // Only throw an InvalidPluginExecutionException. Please Refer https://go.microsoft.com/fwlink/?linkid=2153829.
             catch (Exception ex)
             {
-                tracingService?.Trace("An error occurred executing Plugin CFA_Plugins.Plugins.LinkCompulsoryCourses : {0}", ex.ToString());
+                tracingService?.Trace(String.Format(ex.ToString()));
                 throw new InvalidPluginExecutionException("An error occurred executing Plugin CFA_Plugins.Plugins.LinkCompulsoryCourses .", ex);
             }
         }
