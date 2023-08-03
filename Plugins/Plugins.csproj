@@ -80,7 +80,7 @@
       <HintPath>..\..\..\..\..\..\program files\microsoft visual studio\2022\community\common7\ide\extensions\wjvtinjj.hoc\Resources\CoreTools\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Crm.Sdk.Proxy">
-      <HintPath>..\..\..\..\..\..\program files\microsoft visual studio\2022\community\common7\ide\extensions\wjvtinjj.hoc\Resources\CoreTools\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\wjvtinjj.hoc\Resources\PRTTools\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
     <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.2.0" />
     <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.*" />
