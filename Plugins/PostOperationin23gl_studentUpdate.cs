@@ -77,17 +77,20 @@ namespace CFA_Plugins.Plugins
                         // Capture pre-image and post-image for the Update message
                         Entity preImage = (Entity)context.PreEntityImages["PreImage"];
                         Entity postImage = (Entity)context.PostEntityImages["PostImage"];
+                        Guid studentId = (Guid) preImage["in23gl_studentid"];
                         tracingService?.Trace("PreImage: {0}", preImage);
                         // Compare the changed attributes and copy them from the post-image if they've changed
-                        if (preImage["in23gl_firstname"] != postImage["in23gl_firstname"] || preImage["in23gl_lastname"] != postImage["ingl23_lastname"] ||
+                        if (preImage["in23gl_firstname"] != postImage["in23gl_firstname"] || preImage["in23gl_lastname"] != postImage["in23gl_lastname"] ||
                             preImage["in23gl_dob"] != postImage["in23gl_dob"] || preImage["in23gl_email"] != postImage["in23gl_email"] ||
                             preImage["in23gl_university"] != postImage["in23gl_university"])
                         {
-                            studentLog["in23gl_name"] = postImage["in23gl_firstname"];
-                            studentLog["in23gl_lastname"] = postImage["in23gl_lastname"];
-                            studentLog["in23gl_dob"] = postImage["in23gl_dob"];
-                            studentLog["in23gl_email"] = postImage["in23gl_email"];
-                            studentLog["in23gl_university"] = postImage["in23gl_university"];
+                            
+                            studentLog["in23gl_name"] = preImage["in23gl_firstname"];
+                            studentLog["in23gl_lastname"] = preImage["in23gl_lastname"];
+                            studentLog["in23gl_dob"] = preImage["in23gl_dob"];
+                            studentLog["in23gl_email"] = preImage["in23gl_email"];
+                            studentLog["in23gl_university"] = preImage["in23gl_university"];
+                            studentLog["in23gl_studentid"] = new EntityReference("in23gl_student", studentId);
                             currentUserService.Create(studentLog);
                         } 
                     }
@@ -96,7 +99,7 @@ namespace CFA_Plugins.Plugins
             // Only throw an InvalidPluginExecutionException. Please Refer https://go.microsoft.com/fwlink/?linkid=2153829.
             catch (Exception ex)
             {
-                tracingService?.Trace("An error occurred executing Plugin CFA_Plugins.Plugins.PostOperationin23gl_studentUpdate : {0}", ex.ToString());
+                tracingService?.Trace(String.Format("An error occurred executing Plugin CFA_Plugins.Plugins.PostOperationin23gl_studentUpdate : {0}", ex.ToString()));
                 throw new InvalidPluginExecutionException("An error occurred executing Plugin CFA_Plugins.Plugins.PostOperationin23gl_studentUpdate .", ex);
             }	
         }

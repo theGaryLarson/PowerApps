@@ -7,7 +7,7 @@
         <Plugin Description="Plug-in to Log Student Record Change" FriendlyName="Log Student Record Change" Name="CFA_Plugins.Plugins.PostOperationin23gl_studentUpdate" Id="b5dc685f-e3ac-4e2d-86c6-56372861bc4f" TypeName="CFA_Plugins.Plugins.PostOperationin23gl_studentUpdate">
           <Steps>
             <clear />
-            <Step AsyncAutoDelete="false" Name="Log Student Record Change" Description="Logs Student Record Changes in Student Logs table" FilteringAttributes="in23gl_dob,in23gl_email,in23gl_firstname,in23gl_lastname,in23gl_studentid,in23gl_university" Id="3629bb0e-5b26-ee11-9966-002248081888" ImpersonatingUserId="00000000-0000-0000-0000-000000000000" MessageName="Update" Mode="Synchronous" PrimaryEntityName="in23gl_student" Rank="1" Stage="PostOutsideTransaction" SupportedDeployment="ServerOnly" MessageEntityId="00000000-0000-0000-0000-000000000000">
+            <Step AsyncAutoDelete="false" Name="Log Student Record Change" Description="Logs Student Record Changes in Student Logs table" FilteringAttributes="in23gl_dob,in23gl_email,in23gl_firstname,in23gl_lastname,in23gl_studentid,in23gl_university" Id="01a27d74-2732-ee11-bdf3-0022480810c1" ImpersonatingUserId="00000000-0000-0000-0000-000000000000" MessageName="Update" Mode="Synchronous" PrimaryEntityName="in23gl_student" Rank="1" Stage="PostOutsideTransaction" SupportedDeployment="ServerOnly" MessageEntityId="00000000-0000-0000-0000-000000000000">
               <Images />
             </Step>
           </Steps>
