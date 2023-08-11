@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Students</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/WebResources/in23gl_js_wr_student" type="text/javascript"></script>
+    <link href="/WebResources/in23gl_css_wr_student" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="container mt-4">
+    <div class="mb-3">
+    </div>
+    <div class="table-responsive">
+        <table id="studentsTable" class="table table-striped text-center">
+            <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>DOB</th>
+                <th>Email</th>
+                <th>University</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Rows will be added here from the JS file -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    /**
+     * Fetches student data and populates the HTML table
+     *
+     * @param {Object} students - Object containing student data
+     * @param {Array} students.entities - Array of student objects
+     *
+     * Each student object contains:
+     * - in23gl_studentid - The student ID
+     * - in23gl_firstname - First name
+     * - in23gl_lastname - Last name
+     * - in23gl_dob - Date of birth
+     * - in23gl_email - Email address
+     *
+     * @param {Object} lookupData - Object containing lookup data
+     * @param {Object} lookupData.universityEntity - Object with university name
+     *
+     * The function:
+     * 1. Gets reference to the HTML table element
+     * 2. Loops through the student data
+     * 3. Inserts a new row for each student
+     * 4. Populates the row with the student's data
+     * 5. Adds editable fields and action buttons
+     * 6. Displays any errors in a dialog box
+     */
+    window.fetchStudents = async function(students) {
+        try {
+            console.log("studentsHTML: ", students);
+            console.log('lookupDataHTML: ', lookupData)
+            // Process the result
+            const table = document.getElementById('studentsTable');
+            // Loop through the data and create a table row for each student
+            students.entities.forEach( student => {
+                const row = table.insertRow();
+                //access the data from the entities and assign to corresponding cell within the table
+                const idCell = row.insertCell()
+                const firstNameCell = row.insertCell()
+                const lastNameCell = row.insertCell()
+                const dobCell = row.insertCell()
+                const emailCell = row.insertCell()
+                const universityCell = row.insertCell()
+                const actionCell = row.insertCell();
+
+                idCell.textContent = student.in23gl_studentid;
+                firstNameCell.textContent = student.in23gl_firstname;
+                lastNameCell.textContent = student.in23gl_lastname;
+
+                const date = new Date(student.in23gl_dob);
+                dobCell.textContent = date.toLocaleDateString('en-us', {timeZone: 'UTC'});
+                emailCell.textContent = student.in23gl_email;
+                universityCell.textContent = lookupData.universityEntity.in23gl_universityname;
+
+                firstNameCell.contentEditable = 'true';
+                lastNameCell.contentEditable = 'true';
+                dobCell.contentEditable = 'true';
+                emailCell.contentEditable = 'true';
+
+                const updateButton = newButton('Update');
+                updateButton.onclick = () => updateEntity(row);
+
+                const deleteButton = newButton('Delete');
+                deleteButton.onclick = () => deleteEntity(row);
+
+                actionCell.appendChild(updateButton);
+                actionCell.appendChild(deleteButton);
+            });
+            createRow(table);
+
+        } catch (error) {
+            console.error(error);
+            openErrorDialog({
+                message: error.message,
+                errorCode: error.errorCode,
+                details: error.message
+            });
+        }
+    }
+
+    /**
+     * Creates a new button element.
+     *
+     * @param {string} textContent - The text to display on the button.
+     *
+     * @returns {HTMLButtonElement} The new button element.
+     *
+     * The function:
+     * - Creates a <button> element
+     * - Sets its textContent to the passed in text
+     * - Adds Bootstrap button styling classes
+     * - Returns the button element
+     */
+    function newButton(textContent) {
+        const button = document.createElement('button');
+        button.textContent = textContent;
+        button.className = 'btn btn-sm btn-primary btn-rounded m-2';
+        return button;
+    }
+
+
+    /**
+     * Creates a new student entity. No longer used but left as an example.
+     *
+     * @param {HTMLTableRowElement} row - The table row corresponding to the new student.
+     *
+     * The function:
+     *
+     * 1. Gets the updated cell values from the row
+     * 2. Creates an object with the updated fields
+     * 3. Calls the Web API to create the student record
+     * 4. Updates the row ID cell with the new record ID
+     * 5. Changes the Create button to Update
+     * 6. Shows the Delete button
+     * 7. Displays alert dialog with result
+     * 8. Adds a new empty row to the table
+     *
+     * Displays any errors in a dialog box.
+     */
+
+    async function createEntity(row) {
+
+        try {
+            // Get updated values
+            const firstNameCell = row.cells[1];
+            const lastNameCell = row.cells[2];
+            const dobCell =  row.cells[3];
+            const emailCell = row.cells[4];
+
+            const updatedFields = {
+                "in23gl_firstname": firstNameCell.textContent,
+                "in23gl_lastname": lastNameCell.textContent,
+                "in23gl_dob": new Date(dobCell.textContent).toLocaleDateString('en-us', {timeZone: 'UTC'}),
+                "in23gl_email": emailCell.textContent,
+                // Associate to the university lookup value use the navigation property see pic
+                "in23gl_University@odata.bind": "/in23gl_universities(" + lookupData.universityEntity.in23gl_universityid +")"
+            };
+
+            const result = await window.parent.Xrm.WebApi.createRecord("in23gl_student", updatedFields)
+            row.cells[0].textContent = result.id;
+
+            const actionCell = row.cells[6];
+            const updateButton = $(actionCell).find("button:contains('Create')");
+            updateButton[0].textContent = "Update";
+            updateButton[0].onclick = () => updateEntity(row);
+            const deleteButton = $(actionCell).find("button:contains('Delete')")
+            deleteButton[0].style.display = 'inline-block';
+
+            openAlertDialog({ confirmButtonLabel: "Ok",
+                text: "Created Student Successfully with ID " + result.id,
+                title: "Create Entity"
+            });
+
+            createRow($('#studentsTable')[0])
+
+        } catch (error) {
+            console.error(error);
+            openErrorDialog({
+                message: error.message,
+                errorCode: error.errorCode,
+                details: error.message
+            });
+        }
+    }
+
+    /**
+     * Updates an existing student entity.
+     *
+     * @param {HTMLTableRowElement} row - The table row corresponding to the student.
+     *
+     * The function:
+     *
+     * 1. Gets the updated values from the row cells
+     * 2. Creates an object with the updated fields
+     * 3. Gets the student ID from the row
+     * 4. Calls the Web API to update the student record
+     * 5. Displays alert dialog on success
+     *
+     * Displays any errors in an error dialog.
+     *
+     */
+    async function updateEntity(row) {
+        try {
+            // Get updated values
+            const firstNameCell = row.cells[1];
+            const lastNameCell = row.cells[2];
+            const dobCell =  row.cells[3];
+            const emailCell = row.cells[4];
+            const updatedFields = {
+                in23gl_firstname: firstNameCell.textContent,
+                in23gl_lastname: lastNameCell.textContent,
+                in23gl_dob: new Date(dobCell.textContent),
+                in23gl_email: emailCell.textContent
+            };
+            console.log('updatedFields', updatedFields)
+            // Compare current and updated values
+            const studentId = row.cells[0].textContent;
+            await window.parent.Xrm.WebApi.updateRecord("in23gl_student", studentId, updatedFields);
+            const alertStrings = { confirmButtonLabel: "Ok", text: "Entity updated successfully!", title: "Update Entity" };
+            openAlertDialog(alertStrings);
+        } catch (error) {
+            console.error(error.message);
+            openErrorDialog({
+                message: error.message,
+                errorCode: error.errorCode,
+                details: error.message
+            })
+        }
+    }
+
+    /**
+     * Deletes a student entity.
+     *
+     * @param {HTMLTableRowElement} row - The table row corresponding to the student.
+     *
+     * The function:
+     *
+     * 1. Gets the student ID from the row
+     * 2. Opens a confirmation dialog
+     * 3. If confirmed:
+     *   - Calls the Web API to delete the student record
+     *   - Removes the row from the table
+     * 4. Handles any errors by showing an error dialog
+     */
+    async function deleteEntity(row) {
+        try {
+            const studentId = row.cells[0].textContent;
+            if (studentId !== "") {
+                var confirmStrings = { text:"Are you sure you want to delete this entity? This is irreversible. If you want to delete press Ok.", title:"Delete Entity" };
+                var confirmOptions = { height: 200, width: 450 };
+                window.parent.Xrm.Navigation.openConfirmDialog(confirmStrings, confirmOptions).then(
+                    function (success) {
+                        if (success.confirmed) {
+                            window.parent.Xrm.WebApi.deleteRecord("in23gl_student", studentId);
+                            deleteRow(row);
+                            console.log("Deleted");
+                        }
+                        else
+                            console.error("Dialog closed using Cancel button or X.");
+                    });
+
+            } else {
+
+            }
+        } catch (error) {
+            openErrorDialog({
+                message: error.message,
+                errorCode: error.errorCode,
+                details: error.message
+            });
+        }
+    }
+
+    /**
+     * Deletes a row from the HTML table. Helper function for deleteEntity(row).
+     *
+     * @param {HTMLTableRowElement} row - The row to remove
+     *
+     * The function removes the row from the DOM.
+     */
+    function deleteRow(row) {
+        row.remove();
+    }
+
+    /**
+     * Adds a new empty row to the table for creating a new student.
+     *
+     * @param {HTMLTableElement} table - The HTML table element
+     *
+     * The function:
+     *
+     * 1. Creates a new blank table row
+     * 2. Adds blank editable cells for student data
+     * 3. Sets university name cell text
+     * 4. Creates "Create" and "Delete" buttons
+     * 5. Hides Delete button initially
+     * 6. Handles click events:
+     *   - Create: Opens student create form
+     *   - Delete: Deletes the blank row
+     * 7. Appends buttons to the action cell
+     */
+    function createRow(table) {
+        // Insert blank extra row
+        const blankRow = table.insertRow();
+
+        // Add blank cells
+        blankRow.insertCell();
+        blankRow.insertCell().contentEditable = 'true';
+        blankRow.insertCell().contentEditable = 'true';
+        blankRow.insertCell().contentEditable = 'true';
+        blankRow.insertCell().contentEditable = 'true';
+        const universityCell = blankRow.insertCell();
+        const actionCell = blankRow.insertCell();
+
+        universityCell.textContent = lookupData.universityEntity.in23gl_universityname;
+        // Create buttons for extra row
+        const createButton = newButton('Create');
+        createButton.onclick = () => {
+            openCreateForm();  //createEntity(blankRow);
+        }
+        const deleteButton = newButton('Delete');
+        deleteButton.style.display = 'none';
+        deleteButton.onclick = () => {
+            deleteEntity(blankRow);
+        }
+
+        // Append to extra row
+        actionCell.appendChild(createButton);
+        actionCell.appendChild(deleteButton);
+    }
+
+    /**
+     * Opens an error dialog box.
+     *
+     * @param {Object} errorOptions - Options for configuring the error dialog.
+     *
+     * The errorOptions can contain:
+     * - message: The error message text
+     * - errorCode: An error code
+     * - details: Additional error details
+     *
+     * The function calls Xrm.Navigation.openErrorDialog() to open the dialog.
+     *
+     * It logs a message when the dialog is closed or if there's an error.
+     */
+    function openErrorDialog(errorOptions) {
+        window.parent.Xrm.Navigation.openErrorDialog(errorOptions).then(
+            success => console.log("Error dialog closed"),
+            error => console.log("An error occurred while opening the error dialog: ", error.message)
+        );
+    }
+
+    /**
+     * Opens an alert dialog box.
+     *
+     * @param {Object} alertStrings - Object with alert strings
+     * @param {string} alertStrings.text - Main alert message text
+     * @param {string} alertStrings.title - Alert title
+     *
+     * @param {Object} alertOptions - Options to configure the alert
+     * @param {number} alertOptions.height - Alert height
+     * @param {number} alertOptions.width - Alert width
+     *
+     * Calls Xrm.Navigation.openAlertDialog() to open the alert.
+     *
+     * Logs a message on success or error.
+     */
+    function openAlertDialog(alertStrings) {
+        const alertOptions = { height: 120, width: 260 };
+        window.parent.Xrm.Navigation.openAlertDialog(alertStrings, alertOptions).then(
+            success => console.log("Updated Successfully!"),
+            error => console.log("ErrorMessage: ", error.message)
+        );
+    }
+
+    /**
+     * Opens the create form for the student entity.
+     *
+     * Calls Xrm.Navigation.openForm() to open the form.
+     *
+     * Passes an object with the entityName set to "in23gl_student".
+     *
+     * Catches any errors and displays them in an error dialog.
+     */
+    function openCreateForm() {
+        try {
+            window.parent.Xrm.Navigation.openForm({entityName: "in23gl_student"});
+        } catch (error) {
+            openErrorDialog({
+                message: error.message,
+                errorCode: error.errorCode,
+                details: error.message
+            });
+        }
+    }
+
+</script>
+
+</body>
+</html>
