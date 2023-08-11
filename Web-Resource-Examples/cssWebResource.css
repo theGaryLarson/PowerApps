@@ -1,0 +1,39 @@
+/**
+ * Sets background color for every other table row.
+ */
+tr:nth-of-type(odd) {
+    background-color: rgba(96, 150, 208, 0.47);
+}
+
+/**
+ * Rounds corners of buttons with .btn-rounded class.
+*/
+.btn-rounded {
+    border-radius: 10px;
+}
+
+/**
+ * Changes background and border color of primary buttons on hover.
+*/
+.btn-primary:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/**
+ * Sets background and text color for table header cells.
+*/
+#studentsTable th {
+    background-color: #007bff;
+    color: white;
+}
+
+/**
+ * Applies styling to elements with .container class.
+*/
+.container {
+    background-color: white;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
